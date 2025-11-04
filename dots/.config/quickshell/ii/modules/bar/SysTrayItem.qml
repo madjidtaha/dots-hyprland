@@ -31,10 +31,11 @@ MouseArea {
         event.accepted = true;
     }
     onEntered: {
+        console.log('item', JSON.stringify(item, 2))
         tooltip.text = item.tooltipTitle.length > 0 ? item.tooltipTitle
                 : (item.title.length > 0 ? item.title : item.id);
         if (item.tooltipDescription.length > 0) tooltip.text += " • " + item.tooltipDescription;
-        if (Config.options.bar.tray.showItemId) tooltip.text += "\n[" + item.id + "]";
+        if (Config.options.bar.tray.showItemId) tooltip.text += "\n[" + (Config.options.bar.tray.fixElectron && item.id === 'chrome_status_icon_1' ? item.tooltipTitle : item.id ) + "]";
     }
 
     Loader {

@@ -18,9 +18,23 @@ Item {
     property var activeMenu: null
 
     property bool smartTray: Config.options.bar.tray.filterPassive
-    property list<var> itemsInUserList: SystemTray.items.values.filter(i => (Config.options.bar.tray.pinnedItems.includes(i.id) && (!smartTray || i.status !== Status.Passive)))
-    property list<var> itemsNotInUserList: SystemTray.items.values.filter(i => (!Config.options.bar.tray.pinnedItems.includes(i.id) && (!smartTray || i.status !== Status.Passive)))
+    property list<var> itemsInUserList: {
+        return SystemTray.items.values.filter(i => {
+            if (Config.options.bar.tray.fixElectron && i.id === 'chrome_status_icon_1') {
+                return (Config.options.bar.tray.pinnedItems.includes(i.tooltipTitle) && (!smartTray || i.status !== Status.Passive))
+            }
+            return (Config.options.bar.tray.pinnedItems.includes(i.id) && (!smartTray || i.status !== Status.Passive))
+        })
+    }
+    property list<var> itemsNotInUserList: {
 
+        return SystemTray.items.values.filter(i => {
+            if (Config.options.bar.tray.fixElectron && i.id === 'chrome_status_icon_1') {
+                return (!Config.options.bar.tray.pinnedItems.includes(i.tooltipTitle) && (!smartTray || i.status !== Status.Passive))
+            }
+            return (!Config.options.bar.tray.pinnedItems.includes(i.id) && (!smartTray || i.status !== Status.Passive))
+        })
+    }
     property bool invertPins: Config.options.bar.tray.invertPinnedItems
     property list<var> pinnedItems: invertPins ? itemsNotInUserList : itemsInUserList
     property list<var> unpinnedItems: invertPins ? itemsInUserList : itemsNotInUserList

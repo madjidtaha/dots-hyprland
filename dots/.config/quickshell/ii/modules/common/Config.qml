@@ -227,6 +227,7 @@ Singleton {
                     property bool invertPinnedItems: true // Makes the below a whitelist for the tray and blacklist for the pinned area
                     property list<string> pinnedItems: [ ]
                     property bool filterPassive: true
+                    property bool fixElectron: false
                 }
                 property JsonObject workspaces: JsonObject {
                     property bool monochromeIcons: true
